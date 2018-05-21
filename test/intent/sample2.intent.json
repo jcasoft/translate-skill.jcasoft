@@ -1,0 +1,9 @@
+{
+  "utterance": "translate to spanish good night",
+  "intent_type": "TranslateIntent",
+  "intent": {
+    "TranslateKeyword": "translate",
+    "LanguageNameKeyword": "spanish",
+    "phrase": "good night"
+  }
+}

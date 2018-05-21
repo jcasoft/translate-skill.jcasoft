@@ -1,0 +1,8 @@
+{
+  "utterance": "how use translate",
+  "intent_type": "HowUseIntent",
+  "intent": {
+    "HowUseKeyword": "how use",
+    "SkillNameKeyword": "translate"
+  }
+}
