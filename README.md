@@ -1,4 +1,4 @@
-**TranslateSkill (google-translate-skill)**
+**TranslateSkill**
 ===================
 
 Allow to translate phrases into other languages for Mycroft 18.2.6 or higher
