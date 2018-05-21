@@ -35,10 +35,10 @@ import unicodedata
 __author__ = 'jcasoft'
 
 
-class TranslateSkill(MycroftSkill):
+class translate-skill(MycroftSkill):
 
     def __init__(self):
-        super(TranslateSkill, self).__init__('TranslateSkill')
+        super(translate-skill, self).__init__('translate-skill')
         self.language = self.lang
 
     def initialize(self):
@@ -196,4 +196,4 @@ class TranslateSkill(MycroftSkill):
 
 
 def create_skill():
-    return TranslateSkill()
+    return translate-skill()
