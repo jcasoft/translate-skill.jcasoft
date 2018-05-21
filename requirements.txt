@@ -1,0 +1,4 @@
+lxml 
+mtranslate 
+unidecode
+unicodedata2
