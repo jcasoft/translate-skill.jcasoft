@@ -115,12 +115,18 @@ class TranslateSkill(MycroftSkill):
             if lang == language:
                 print("*****Skip language.....")
             else:
-                self.speak_dialog("in",{'language': langs[i].split("|")[1]})
-                time.sleep(1.8)
+                #self.speak_dialog("in",{'language': langs[i].split("|")[1]})
+                #time.sleep(1.8)
+                self.enclosure.deactivate_mouth_events()
                 translated = translate(resp, lang)
+                self.enclosure.mouth_text(translated)
                 self.say(translated, lang)
 
             i = i + 1
+
+        mycroft.audio.wait_while_speaking()
+        self.enclosure.activate_mouth_events()
+        self.enclosure.mouth_reset()
 
         self.speak_dialog("what.did.you.think")
         self.emitter.emit(Message('recognizer_loop:unmute_mic'))
