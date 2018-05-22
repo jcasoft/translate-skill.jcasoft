@@ -8,24 +8,23 @@ English, Spanish, French, Italian, Portuguese, Dutch, German, Swedish, Hungarian
 ----------
 
 
-Install Using MSM (Mycroft Skill Manager) 
--------------------
-
-    msm install https://github.com/jcasoft/translate-skill.jcasoft.git
-
-
 Installation Manual
 -------------------
 
     cd  /opt/mycroft/skills
-    git clone https://github.com/jcasoft/translate-skill.jcasoft.git
-    cd translate-skill.jcasoft
 
     On Ubuntu with Dev branch
-    ~/mycroft-core/.venv/bin/pip install -r /opt/mycroft/skills/translate-skill.jcasoft/requirements.txt
+    git clone https://github.com/jcasoft/translate-skill.jcasoft.git
+    cd translate-skill.jcasoft
+    bash requirements.sh
+    ~/mycroft-core/.venv/bin/pip install -r requirements.txt
 
     On PiCroft with Mycroft 18.2.6 or higher
-    sudo /opt/venvs/mycroft-core/bin/pip install -r /opt/mycroft/skills/translate-skill.jcasoft/requirements.txt
+    sudo su mycroft
+    git clone https://github.com/jcasoft/translate-skill.jcasoft.git
+    cd translate-skill.jcasoft
+    bash requirements.sh
+    /opt/venvs/mycroft-core/bin/pip install -r requirements.txt
 
 
 Features
@@ -34,7 +33,6 @@ Features
 Currently this skill can do the following things (with some variation):
 
 - translate to spanish good night
-- say in french good morning
 
 - translate good morning my dear friends and happy new year to italian
 - translate good morning my dear friends and happy new year to spanish
