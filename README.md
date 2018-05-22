@@ -3,6 +3,8 @@
 
 Allow to translate phrases into other languages for Mycroft 18.2.6 or higher
 
+Supported languages:
+English, Spanish, French, Italian, Portuguese, Dutch, German, Swedish, Hungarian, Polish, Norwegian, Danish, Romanian, Slovak, Catalan, Chinese and Japanese
 ----------
 
 
@@ -22,11 +24,8 @@ Installation Manual
     On Ubuntu with Dev branch
     ~/mycroft-core/.venv/bin/pip install -r /opt/mycroft/skills/translate-skill.jcasoft/requirements.txt
 
-    On Mark1 or PiCroft
+    On PiCroft with Mycroft 18.2.6 or higher
     sudo /opt/venvs/mycroft-core/bin/pip install -r /opt/mycroft/skills/translate-skill.jcasoft/requirements.txt
-
-
-
 
 
 Features
@@ -57,7 +56,7 @@ Currently this skill can do the following things (with some variation):
 > **Note:**
 
 > - You can toggle language key word with:
-> - spanish, italian, french, dutch, german, portuguese, polish, danish, hungarian, swedish, norwegian, catalan (no good voice quaility), romanian, slovak, chinese (in test mode), japanese (in test mode)
+> - spanish, italian, french, dutch, german, portuguese, polish, danish, hungarian, swedish, norwegian, catalan (no good voice quaility), romanian, slovak, chinese, japanese
 
 
 
