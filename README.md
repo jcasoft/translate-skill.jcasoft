@@ -27,6 +27,13 @@ Installation Manual
     /opt/venvs/mycroft-core/bin/pip install -r requirements.txt
 
 
+
+Notes
+--------------------
+
+The installation of requirements (bash requirements.sh) take long time.
+
+
 Features
 --------------------
 
