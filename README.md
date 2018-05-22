@@ -8,23 +8,36 @@ English, Spanish, French, Italian, Portuguese, Dutch, German, Swedish, Hungarian
 ----------
 
 
-Installation Manual
--------------------
+Manual Installation on Ubuntu with Dev branch
+---------------------------------------------
 
     cd  /opt/mycroft/skills
-
-    On Ubuntu with Dev branch
     git clone https://github.com/jcasoft/translate-skill.jcasoft.git
     cd translate-skill.jcasoft
-    bash requirements.sh
-    ~/mycroft-core/.venv/bin/pip install -r requirements.txt
+    bash requirements.sh    (try with sudo if necessary)
+    ~/mycroft-core/.venv/bin/pip install -r requirements.txt    (try with sudo if necessary)
 
-    On PiCroft with Mycroft 18.2.6 or higher
+    Restart Mycroft
+
+    ./stop-mycroft.sh
+    ./start-mycroft.sh debug
+
+
+
+
+Manual Installation on Picroft and Mark1
+----------------------------------------
+
+    cd  /opt/mycroft/skills
     sudo su mycroft
     git clone https://github.com/jcasoft/translate-skill.jcasoft.git
     cd translate-skill.jcasoft
     bash requirements.sh
     /opt/venvs/mycroft-core/bin/pip install -r requirements.txt
+
+    Restart Mycroft Skills
+
+    sudo /etc/init.d/mycroft-skills restart
 
 
 

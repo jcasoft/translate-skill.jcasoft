@@ -110,11 +110,6 @@ class TranslateSkill(MycroftSkill):
         self.emitter.emit(Message('recognizer_loop:mute_mic'))
         i = 0
         for i in range(0, len(langs)):
-            if self.stopTranslate:
-                print("*****Exit language.....")
-                break
-
-
             lang = langs[i].split("|")
             lang = lang[0]
             if lang == language:
@@ -142,6 +137,7 @@ class TranslateSkill(MycroftSkill):
 
         os.system(get_sentence)
 
+        self.emitter.emit(Message('enclosure.mouth.text'))
         p = play_mp3("/tmp/translated.mp3")
         p.communicate()
 
