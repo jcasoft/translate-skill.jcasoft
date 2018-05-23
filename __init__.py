@@ -119,14 +119,13 @@ class TranslateSkill(MycroftSkill):
                 print("*****Skip language.....")
             else:
                 translated = translate(resp, lang)
-                self.enclosure.mouth_text(translated)
                 self.say(translated, lang)
 
             i = i + 1
 
         self.speak_dialog("what.did.you.think")
-        self.emitter.emit(Message('recognizer_loop:unmute_mic'))
-        self.emitter.emit(Message('recognizer_loop:audio_output_end'))
+        #self.emitter.emit(Message('recognizer_loop:unmute_mic'))
+        #self.emitter.emit(Message('recognizer_loop:audio_output_end'))
 
     def handle_how_use(self, message):
         self.speak_dialog("how.use")
@@ -142,8 +141,8 @@ class TranslateSkill(MycroftSkill):
         p = play_mp3("/tmp/translated.mp3")
         p.communicate()
 
-        time.sleep(0.2)
-        self.emitter.emit(Message('recognizer_loop:unmute_mic'))
+        time.sleep(3)
+        #self.emitter.emit(Message('recognizer_loop:unmute_mic'))
 
         self.enclosure.activate_mouth_events()
         self.enclosure.mouth_reset()
