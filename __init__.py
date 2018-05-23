@@ -6,7 +6,6 @@ from mycroft.configuration import ConfigurationManager
 from adapt.intent import IntentBuilder
 from mycroft.messagebus.message import Message
 from mycroft.skills.core import MycroftSkill, intent_handler
-import mycroft.audio
 from mycroft.skills.context import adds_context
 from mycroft.util import play_mp3
 
@@ -119,9 +118,6 @@ class TranslateSkill(MycroftSkill):
             if lang == language:
                 print("*****Skip language.....")
             else:
-                if self.tts != "mimic":
-                    self.speak_dialog("in",{'language': langs[i].split("|")[1]})
-                    time.sleep(2)
                 translated = translate(resp, lang)
                 self.enclosure.mouth_text(translated)
                 self.say(translated, lang)
@@ -149,7 +145,6 @@ class TranslateSkill(MycroftSkill):
         time.sleep(0.2)
         self.emitter.emit(Message('recognizer_loop:unmute_mic'))
 
-        mycroft.audio.wait_while_speaking()
         self.enclosure.activate_mouth_events()
         self.enclosure.mouth_reset()
 
