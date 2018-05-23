@@ -2,9 +2,11 @@
 #               Juan Carlos Argueta
 # Now migrated, tested and working in Python3
 
+from mycroft.configuration import ConfigurationManager
 from adapt.intent import IntentBuilder
 from mycroft.messagebus.message import Message
 from mycroft.skills.core import MycroftSkill, intent_handler
+import mycroft.audio
 from mycroft.skills.context import adds_context
 from mycroft.util import play_mp3
 
@@ -30,6 +32,8 @@ class TranslateSkill(MycroftSkill):
             .require('SkillNameKeyword') \
             .build()
         self.register_intent(intent, self.handle_how_use)
+
+        self.tts = ConfigurationManager.get().get("tts").get("module")
 
     @intent_handler(IntentBuilder("TranslateIntent").require("TranslateKeyword")
                     .require('ToKeyword')
@@ -115,18 +119,14 @@ class TranslateSkill(MycroftSkill):
             if lang == language:
                 print("*****Skip language.....")
             else:
-                #self.speak_dialog("in",{'language': langs[i].split("|")[1]})
-                #time.sleep(1.8)
-                self.enclosure.deactivate_mouth_events()
+                if self.tts != "mimic":
+                    self.speak_dialog("in",{'language': langs[i].split("|")[1]})
+                    time.sleep(2)
                 translated = translate(resp, lang)
                 self.enclosure.mouth_text(translated)
                 self.say(translated, lang)
 
             i = i + 1
-
-        mycroft.audio.wait_while_speaking()
-        self.enclosure.activate_mouth_events()
-        self.enclosure.mouth_reset()
 
         self.speak_dialog("what.did.you.think")
         self.emitter.emit(Message('recognizer_loop:unmute_mic'))
@@ -137,18 +137,23 @@ class TranslateSkill(MycroftSkill):
 
     def say(self, sentence, lang):
         self.emitter.emit(Message('recognizer_loop:mute_mic'))
-
+        self.enclosure.deactivate_mouth_events()
         get_sentence = 'wget -q -U Mozilla -O /tmp/translated.mp3 "https://translate.google.com/translate_tts?ie=UTF-8&tl=' + \
             str(lang) + '&q=' + str(sentence) + '&client=tw-ob' + '"'
 
         os.system(get_sentence)
-
-        self.emitter.emit(Message('enclosure.mouth.text'))
+        self.enclosure.mouth_text(sentence)
         p = play_mp3("/tmp/translated.mp3")
         p.communicate()
 
         time.sleep(0.2)
         self.emitter.emit(Message('recognizer_loop:unmute_mic'))
+
+        mycroft.audio.wait_while_speaking()
+        self.enclosure.activate_mouth_events()
+        self.enclosure.mouth_reset()
+
+
 
 
 def create_skill():
