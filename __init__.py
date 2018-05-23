@@ -124,10 +124,6 @@ class TranslateSkill(MycroftSkill):
             if lang == language:
                 print("*****Skip language.....")
             else:
-                if self.tts != "mimic":
-                    self.speak_dialog("in",{'language': langs[i].split("|")[1]})
-                    time.sleep(1.3)
-
                 translated = translate(resp, lang)
                 self.say(translated, lang)
                 audio_file = MP3(self.path_translated_file)
@@ -151,9 +147,10 @@ class TranslateSkill(MycroftSkill):
 
         wait_while_speaking()
         self.audioservice.play(self.path_translated_file)      
- 
-        if self.enclosure == True:
-            time.sleep(len(sentence) * 1.1)
+
+        audio_file = MP3(self.path_translated_file)
+        time.sleep(audio_file.info.length)
+
 
         self.enclosure.activate_mouth_events()
         self.enclosure.mouth_reset()
