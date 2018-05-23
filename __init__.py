@@ -120,14 +120,14 @@ class TranslateSkill(MycroftSkill):
         i = 0
         for i in range(0, len(langs)):
             lang = langs[i].split("|")
-            lang = lang[0]
             if lang == language:
                 print("*****Skip language.....")
             else:
-                translated = translate(resp, lang)
-                self.say(translated, lang)
+                self.enclosure.mouth_text(lang[1])
+                translated = translate(resp, lang[0])
+                self.say(translated, lang[0])
                 audio_file = MP3(self.path_translated_file)
-                time.sleep(audio_file.info.length+1.5)
+                time.sleep(audio_file.info.length)
 
             i = i + 1
 
@@ -143,7 +143,6 @@ class TranslateSkill(MycroftSkill):
             str(lang) + '&q=' + str(sentence) + '&client=tw-ob' + '"'
 
         os.system(get_sentence)
-        self.enclosure.mouth_text(sentence)
 
         wait_while_speaking()
         self.audioservice.play(self.path_translated_file)      
@@ -151,13 +150,11 @@ class TranslateSkill(MycroftSkill):
         audio_file = MP3(self.path_translated_file)
         time.sleep(audio_file.info.length)
 
-
         self.enclosure.activate_mouth_events()
         self.enclosure.mouth_reset()
 
     def stop(self):
         if self.process and self.process.poll() is None:
-            self.speak_dialog('translate.stop')
             self.process.terminate()
             self.process.wait()
 
