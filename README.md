@@ -34,6 +34,7 @@ Manual Installation on Picroft and Mark1
     cd translate-skill.jcasoft
     bash requirements.sh
     /opt/venvs/mycroft-core/bin/pip install -r requirements.txt
+    exit  (exit from sudo su mycroft.)
 
     Restart Mycroft Skills
 
