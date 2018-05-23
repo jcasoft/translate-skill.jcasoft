@@ -7,10 +7,14 @@ from adapt.intent import IntentBuilder
 from mycroft.messagebus.message import Message
 from mycroft.skills.core import MycroftSkill, intent_handler
 from mycroft.skills.context import adds_context
-from mycroft.util import play_mp3
+
+from mycroft.skills.audioservice import AudioService
+from mycroft.audio import wait_while_speaking
 
 import os
 import time
+from os.path import dirname, join
+from mutagen.mp3 import MP3
 
 from mtranslate import translate
 
@@ -23,16 +27,18 @@ class TranslateSkill(MycroftSkill):
     def __init__(self):
         super(TranslateSkill, self).__init__('TranslateSkill')
         self.language = self.lang
+        self.process = None
+        self.path_translated_file = "/tmp/translated.mp3"
 
     def initialize(self):
+        self.tts = ConfigurationManager.get().get("tts").get("module")
+        self.audioservice = AudioService(self.emitter)
 
         intent = IntentBuilder('HowUseIntent')\
             .require('HowUseKeyword') \
             .require('SkillNameKeyword') \
             .build()
         self.register_intent(intent, self.handle_how_use)
-
-        self.tts = ConfigurationManager.get().get("tts").get("module")
 
     @intent_handler(IntentBuilder("TranslateIntent").require("TranslateKeyword")
                     .require('ToKeyword')
@@ -68,8 +74,8 @@ class TranslateSkill(MycroftSkill):
         self.emitter.emit(Message('recognizer_loop:audio_output_start'))
         time.sleep(1)
 
-        p = play_mp3("/tmp/translated.mp3")
-        p.communicate()
+        wait_while_speaking()
+        self.audioservice.play(self.path_translated_file)  
 
         self.emitter.emit(Message('recognizer_loop:unmute_mic'))
         self.emitter.emit(Message('recognizer_loop:audio_output_end'))
@@ -118,34 +124,45 @@ class TranslateSkill(MycroftSkill):
             if lang == language:
                 print("*****Skip language.....")
             else:
+                if self.tts != "mimic":
+                    self.speak_dialog("in",{'language': langs[i].split("|")[1]})
+                    time.sleep(1.3)
+
                 translated = translate(resp, lang)
                 self.say(translated, lang)
+                audio_file = MP3(self.path_translated_file)
+                time.sleep(audio_file.info.length+1.5)
 
             i = i + 1
 
         self.speak_dialog("what.did.you.think")
-        #self.emitter.emit(Message('recognizer_loop:unmute_mic'))
-        #self.emitter.emit(Message('recognizer_loop:audio_output_end'))
+
 
     def handle_how_use(self, message):
         self.speak_dialog("how.use")
 
     def say(self, sentence, lang):
-        self.emitter.emit(Message('recognizer_loop:mute_mic'))
         self.enclosure.deactivate_mouth_events()
         get_sentence = 'wget -q -U Mozilla -O /tmp/translated.mp3 "https://translate.google.com/translate_tts?ie=UTF-8&tl=' + \
             str(lang) + '&q=' + str(sentence) + '&client=tw-ob' + '"'
 
         os.system(get_sentence)
         self.enclosure.mouth_text(sentence)
-        p = play_mp3("/tmp/translated.mp3")
-        p.communicate()
 
-        time.sleep(3)
-        #self.emitter.emit(Message('recognizer_loop:unmute_mic'))
+        wait_while_speaking()
+        self.audioservice.play(self.path_translated_file)      
+ 
+        if self.enclosure == True:
+            time.sleep(len(sentence) * 1.1)
 
         self.enclosure.activate_mouth_events()
         self.enclosure.mouth_reset()
+
+    def stop(self):
+        if self.process and self.process.poll() is None:
+            self.speak_dialog('translate.stop')
+            self.process.terminate()
+            self.process.wait()
 
 
 
