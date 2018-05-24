@@ -48,7 +48,7 @@ Manual Installation on Picroft and Mark1
 Notes
 --------------------
 
-The installation of requirements (bash requirements.sh) take long time.
+The installation of bash requirements.sh and requirements.txt take long time.
 
 
 Features
