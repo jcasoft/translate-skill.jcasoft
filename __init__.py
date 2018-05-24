@@ -123,7 +123,7 @@ class TranslateSkill(MycroftSkill):
             if lang == language:
                 print("*****Skip language.....")
             else:
-                self.enclosure.mouth_text(lang[1][:7])
+                self.enclosure.mouth_text(lang[1][:6])
                 translated = translate(resp, lang[0])
                 self.say(translated, lang[0])
                 audio_file = MP3(self.path_translated_file)
