@@ -36,12 +36,12 @@ Manual Installation on Picroft and Mark1
 
     exit  (exit from sudo su mycroft.)
 
-    sudo /opt/venvs/mycroft-core/bin/pip install -r requirements.txt
+    sudo /opt/venvs/mycroft-core/bin/pip install -r /opt/mycroft/skills/translate-skill.jcasoft/requirements.txt
 
 
     Restart Mycroft Skills
 
-    sudo /etc/init.d/mycroft-skills restart
+    sudo service mycroft-skills restart
 
 
 
